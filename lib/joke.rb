@@ -1,3 +1,4 @@
+
 class Joke
   attr_reader :id, :question, :answer
   def initialize(joke_data)
