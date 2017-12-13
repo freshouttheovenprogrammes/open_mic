@@ -28,7 +28,7 @@ class UserTest < Minitest::Test
     assert_equal [], melissa.jokes
   end
 
-  def test_user_can_learn_a_joke
+  def test_user_can_learn_a_couple_jokes
     amber = User.new("Amber")
     joke_1 = Joke.new({id: 3,
                     question: "What do you call a cow with a twitch?",
@@ -39,5 +39,23 @@ class UserTest < Minitest::Test
     amber.learn(joke_1)
     amber.learn(joke_2)
     assert_equal [joke_1, joke_2], amber.jokes
+  end
+
+  def test_user_can_tell_another_user_multiple_jokes
+    joe = User.new("Joe")
+    josh = User.new("Josh")
+    joke_1 = Joke.new({id: 3,
+                    question: "What do you call a cow with a twitch?",
+                    answer: "Beef jerky"})
+    joke_2 = Joke.new({id: 5,
+                    question: "Who greets you at a haunted house?",
+                    answer: "A host ghost"})
+    joe.learn(joke_1)
+    joe.learn(joke_2)
+    joe.tell(josh, joke_1)
+    joe.tell(josh, joke_2)
+
+    assert_equal [joke_1, joke_2], josh.jokes
+    assert_equal 2, josh.jokes.count
   end
 end
