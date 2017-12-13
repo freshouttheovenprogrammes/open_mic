@@ -24,9 +24,9 @@ class User
   end
 
   def learn_routine(filename)
-    jokes = CSV.open filename, headers: true, header_converters: :symbol
-    jokes.each do |joke|
-      learn(joke)
+    joke_csv = CSV.open(filename, headers: true, header_converters: :symbol)
+      joke_csv.to_a.map do |joke|
+      self.jokes << joke.to_hash
     end
   end
 
