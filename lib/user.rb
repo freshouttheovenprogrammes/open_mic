@@ -1,4 +1,5 @@
 require_relative 'joke'
+require 'csv'
 
 class User
   attr_reader :name, :jokes
@@ -19,6 +20,13 @@ class User
   def perform_routine_for(user)
     jokes.each do |joke|
       user.jokes << joke
+    end
+  end
+
+  def learn_routine(filename)
+    jokes = CSV.open filename, headers: true, header_converters: :symbol
+    jokes.each do |joke|
+      learn(joke)
     end
   end
 
