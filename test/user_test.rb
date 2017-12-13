@@ -41,21 +41,37 @@ class UserTest < Minitest::Test
     assert_equal [joke_1, joke_2], amber.jokes
   end
 
-  def test_user_can_tell_another_user_multiple_jokes
+  def test_user_can_tell_another_user_a_joke
     joe = User.new("Joe")
     josh = User.new("Josh")
     joke_1 = Joke.new({id: 3,
                     question: "What do you call a cow with a twitch?",
                     answer: "Beef jerky"})
-    joke_2 = Joke.new({id: 5,
-                    question: "Who greets you at a haunted house?",
-                    answer: "A host ghost"})
     joe.learn(joke_1)
-    joe.learn(joke_2)
     joe.tell(josh, joke_1)
-    joe.tell(josh, joke_2)
 
-    assert_equal [joke_1, joke_2], josh.jokes
-    assert_equal 2, josh.jokes.count
+    assert_equal [joke_1], josh.jokes
+    assert_equal 1, josh.jokes.count
+  end
+
+  def test_user_can_preform_a_routine_for_another_user
+    jimmy = User.new("Jimmy")
+    john = User.new("John")
+    joke_1 = Joke.new({id: 3,
+                    question: "What do you call a cow with a twitch?",
+                    answer: "Beef jerky"})
+    joke_2 = Joke.new({id: 6,
+                    question: "Why did the farmer bury all his money?",
+                    answer: "To make his soil rich"})
+    jimmy.learn(joke_1)
+    jimmy.learn(joke_2)
+
+    assert_equal 2, jimmy.jokes.count
+    assert_equal [joke_1, joke_2], jimmy.jokes
+
+    jimmy.perform_routine_for(john)
+
+    assert_equal 2, john.jokes.count
+    assert_equal [joke_1, joke_2], john.jokes
   end
 end
