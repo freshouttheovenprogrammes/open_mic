@@ -7,4 +7,9 @@ class User
     @name = name
     @jokes = []
   end
+
+  def learn(joke)
+    @jokes << joke
+  end
+
 end
